@@ -114,8 +114,6 @@ gst_viperddc_init(Gstviperddc *self) {
     self->ddc_file = malloc(256);
     memset(self->ddc_file, 0, 256);
 
-    self->dsp_buffer_length = 1024;
-
     g_mutex_init(&self->lock);
 }
 

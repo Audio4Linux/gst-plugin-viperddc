@@ -30,8 +30,6 @@ typedef struct _Gstviperddc     Gstviperddc;
 typedef struct _GstviperddcClass GstviperddcClass;
 
 struct _Gstviperddc {
-    GstAudioFilter audiofilter;
-
     /* properties */
     gboolean ddc_enable;
     gchar *ddc_file;
@@ -41,7 +39,6 @@ struct _Gstviperddc {
     DirectForm2 **df441, **df48, **dfResampled, **sosPointer;
     int sosCount, resampledSOSCount, usedSOSCount;
     int samplerate;
-    int dsp_buffer_length;
 };
 
 struct _GstviperddcClass {

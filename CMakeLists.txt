@@ -14,10 +14,6 @@ pkg_check_modules(GLIB REQUIRED
         glib-2.0
         gio-unix-2.0)
 
-file(GLOB SOURCES
-        *.h
-        *.c)
-
 add_library(gst-plugin-viperddc SHARED ${SOURCES} gstviperddc.h gstviperddc.c vdc.h)
 
 target_include_directories(gst-plugin-viperddc PUBLIC ${GST_INCLUDE_DIRS} ${GLIB_INCLUDE_DIRS})

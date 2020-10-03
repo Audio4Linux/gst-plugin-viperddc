@@ -22,7 +22,6 @@
     USA.
  **/
 
-
 #include <math.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,20 +32,6 @@ typedef struct
     double b0, b1, b2, a1, a2;
     double v1L, v2L, v1R, v2R; // State
 } DirectForm2;
-
-void SOS_DF2_StereoProcess(DirectForm2 *df2, double x1, double x2, double *Out_y1, double *Out_y2)
-{
-    double w1 = x1 - df2->a1*df2->v1L - df2->a2*df2->v2L;
-    double y1 = df2->b0*w1 + df2->b1*df2->v1L + df2->b2*df2->v2L;
-    df2->v2L = df2->v1L;
-    df2->v1L = w1;
-    *Out_y1 = y1;
-    double w2 = x2 - df2->a1*df2->v1R - df2->a2*df2->v2R;
-    double y2 = df2->b0*w2 + df2->b1*df2->v1R + df2->b2*df2->v2R;
-    df2->v2R = df2->v1R;
-    df2->v1R = w2;
-    *Out_y2 = y2;
-}
 
 void SOS_DF2_Float_StereoProcess(DirectForm2 *df2, double x1, double x2, float *Out_y1, float *Out_y2)
 {
