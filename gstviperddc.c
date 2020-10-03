@@ -88,7 +88,7 @@ gst_viperddc_class_init(GstviperddcClass *klass) {
                                           "viperddc",
                                           "Filter/Effect/Audio",
                                           "ViPER-DDC open-source replacement for GStreamer1",
-                                          "ThePBone <timschneeberger@outlook.de>");
+                                          "ThePBone <tim.schneeberger@outlook.de>");
 
     caps = gst_caps_from_string(ALLOWED_CAPS);
     gst_audio_filter_class_add_pad_templates(GST_VIPERDDC_CLASS (klass), caps);
