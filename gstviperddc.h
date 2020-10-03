@@ -30,6 +30,8 @@ typedef struct _Gstviperddc     Gstviperddc;
 typedef struct _GstviperddcClass GstviperddcClass;
 
 struct _Gstviperddc {
+    GstAudioFilter audiofilter;
+
     /* properties */
     gboolean ddc_enable;
     gchar *ddc_file;
