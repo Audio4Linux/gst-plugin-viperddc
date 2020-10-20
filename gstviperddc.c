@@ -20,6 +20,7 @@
 #include <gst/audio/gstaudiofilter.h>
 #include <gst/controller/controller.h>
 #include <math.h>
+#include <locale.h>
 
 GST_DEBUG_CATEGORY_STATIC (gst_viperddc_debug);
 #define GST_CAT_DEFAULT gst_viperddc_debug
@@ -61,6 +62,7 @@ static GstFlowReturn gst_viperddc_transform_ip(GstBaseTransform *base,
 /* initialize the viperddc's class */
 static void
 gst_viperddc_class_init(GstviperddcClass *klass) {
+
     GObjectClass *gobject_class = (GObjectClass *) klass;
     GstElementClass *gstelement_class = (GstElementClass *) klass;
     GstBaseTransformClass *basetransform_class = (GstBaseTransformClass *) klass;
@@ -140,6 +142,8 @@ char *memory_read_ascii(char *path) {
 
 static void sync_parameters(GObject *object) {
     Gstviperddc *self = GST_VIPERDDC (object);
+
+    setlocale(LC_NUMERIC, "C");
     if (!self->ddc_enable) {
         if (self->sosCount) {
             for (int i = 0; i < self->sosCount; i++) {
@@ -151,13 +155,6 @@ static void sync_parameters(GObject *object) {
             free(self->df48);
             self->df48 = 0;
             self->sosCount = 0;
-            if (self->resampledSOSCount) {
-                for (int i = 0; i < self->resampledSOSCount; i++)
-                    free(self->dfResampled[i]);
-                free(self->dfResampled);
-                self->dfResampled = 0;
-                self->resampledSOSCount = 0;
-            }
             self->sosPointer = 0;
         }
         return;
@@ -178,15 +175,27 @@ static void sync_parameters(GObject *object) {
     }
     if (d == 0) {
         GST_CAT_ERROR(gst_viperddc_debug, "DDC contents contain no data");
+        if (ddcString != NULL) {
+            free(ddcString);
+        }
         return;
     }
     int begin = strcspn(ddcString, "S");
     if (strcspn(ddcString, "R") != begin + 1) { //check for 'SR' in the string
         GST_CAT_ERROR(gst_viperddc_debug, "Invalid DDC string");
+        if (ddcString != NULL) {
+            free(ddcString);
+        }
         return;
     }
 
     self->sosCount = DDCParser(ddcString, &self->df441, &self->df48);
+
+    GST_CAT_DEBUG(gst_viperddc_debug, "SOS count %d", self->sosCount);
+
+    if(self->sosCount < 1){
+        GST_CAT_ERROR(gst_viperddc_debug, "SOS count is zero");
+    }
 
     if (self->samplerate == 44100 && self->df441) {
         self->sosPointer = self->df441;

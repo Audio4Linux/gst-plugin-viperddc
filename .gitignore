@@ -1,2 +1,8 @@
 cmake-build-debug/
 cmake-build-release/
+CMakeFiles/
+cmake_install.cmake
+CMakeCache.txt
+gst-plugin-viperddc.cbp
+Makefile
+libgstviperddc.so

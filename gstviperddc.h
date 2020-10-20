@@ -17,7 +17,7 @@ G_BEGIN_DECLS
 #define GST_IS_VIPERDDC_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass) ,GST_TYPE_VIPERDDC))
 
 #define PACKAGE "viperddc-plugin"
-#define VERSION "1.0.0"
+#define VERSION "1.1.0"
 
 #define ALLOWED_CAPS \
   "audio/x-raw,"                            \
@@ -38,8 +38,8 @@ struct _Gstviperddc {
 
     /* < private > */
     GMutex lock;
-    DirectForm2 **df441, **df48, **dfResampled, **sosPointer;
-    int sosCount, resampledSOSCount, usedSOSCount;
+    DirectForm2 **df441, **df48, **sosPointer;
+    int sosCount, usedSOSCount;
     int samplerate;
 };
 
