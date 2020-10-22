@@ -19,9 +19,31 @@ make
 ```
 
 You should end up with `libgstviperddc.so`.
-Copy the library into one of the GStreamer plugin paths and load it into your GStreamer server.
+Now you need to copy the file into one of GStreamer's plugin directories. It can be different between distros.
+
+Debian:
+```bash
+sudo cp libgstviperfx.so /usr/lib/x86_64-linux-gnu/gstreamer-1.0/  
+```
+Arch:
+```bash
+sudo cp libgstviperfx.so /usr/lib/gstreamer-1.0/  
+```
 
 To verify whether it was installed correctly:
 ```
 gst-inspect-1.0 viperddc
+```
+
+It is now installed. You can launch an audio processing pipeline using `gst-launch-1.0` or link it into your own GStreamer host application.
+
+### Example pipeline
+Play and process audio file 'test.mp3' using 'bass.vdc':
+```bash
+gst-launch-1.0 filesrc location="test.mp3" ! decodebin ! audioresample ! audioconvert ! viperddc ddc-enable="true" ddc-file="bass.vdc" ! autoaudiosink
+```
+
+You can use the `GST_DEBUG` environment variable to enable debug output:
+```
+export GST_DEBUG=viperddc:8
 ```
