@@ -204,7 +204,7 @@ static void sync_parameters(GObject *object) {
         self->sosPointer = self->df48;
         self->usedSOSCount = self->sosCount;
     } else {
-        GST_CAT_ERROR(gst_viperddc_debug, "Failed to set VDC coefficients");
+        GST_CAT_ERROR(gst_viperddc_debug, "Invalid sampling rate");
     }
 
     if (ddcString != NULL) {
@@ -296,6 +296,9 @@ gst_viperddc_setup(GstAudioFilter *base, const GstAudioInfo *info) {
         return FALSE;
 
     GST_DEBUG_OBJECT (self, "current sample_rate = %d", self->samplerate);
+
+    sync_parameters((GObject *) self);
+
     return TRUE;
 }
 
